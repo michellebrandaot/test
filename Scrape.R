@@ -41,56 +41,17 @@ json_resp <- fromJSON(content(res, "text"))
 df <- data.frame(json_resp$resultSets$rowSet)
 
 colnames(df) <- json_resp[["resultSets"]][["headers"]][[1]]    
-View(df)
+
 
 ## cleaning dataset 
 df <- df %>% select(-c(TEAM_ID,CFPARAMS,GP_RANK))
 
-colnames(Team)
+
 ### Winning 
 
 Team <- df %>% select(TEAM_NAME,GP, W, L,W_PCT,POSS,PACE, PACE_RANK, PACE_PER40 )
 
 write_csv(Team, "Team.csv")
-
-table_1 <-Team %>% 
-  gt(rowname_col = "TEAM_NAME") %>%   
-  tab_header(
-    title = md("**SCOUTING REPORT**"),
-    subtitle = "Regular Season only"
-  ) %>%   tab_stubhead(label = "Team") %>%
-  cols_label(GP = "Games Played", 
-             W = "Wins", 
-             L = "Losses",
-             W_PCT = "Win Percentage",
-             PACE = "Pace",
-             PACE_RANK = md("*Rank*")) %>%
-  text_transform(
-    locations = cells_body(
-      columns = PACE_RANK
-    ),
-    fn = function(x){
-      team <- word(x, -1)
-      paste0(
-        "(", x, ")")
-    }
-  ) %>% cols_align(
-    align = "center",
-    columns = everything()
-  ) %>%  
-  tab_style(style = cell_text(color = "blue",
-                                     size = px(10)),
-                   locations = cells_body(
-                     columns = PACE_RANK)
-  ) %>%
-  tab_style(
-    style = cell_text(size = px(1)),
-    locations = cells_column_labels(
-      columns = PACE_RANK))
-  
-  
-
-
 
 
 ## Efficiency
@@ -98,62 +59,19 @@ Efficiency_table <- df %>% select(TEAM_NAME,OFF_RATING,OFF_RATING_RANK,DEF_RATIN
 
 
 
-### TEAM EFFICIENCY ## 
-
-   
-table_team_efficiency <- Efficiency_table %>% 
-  gt(rowname_col = "TEAM_NAME") %>%   
-  tab_header(
-    title = md("**Team Efficiency**"),
-    subtitle = "Regular Season only"
-    ) %>%
-  tab_stubhead(label = "Team") %>%
-   cols_label(OFF_RATING = "Offensive Rating", 
-             DEF_RATING = "Defensive Rating", 
-             NET_RATING = "Net Rating",
-             OFF_RATING_RANK = md("*Rank*"),
-             DEF_RATING_RANK = md("*Rank*"),
-             NET_RATING_RANK = md("*Rank*")) %>%
-  text_transform(
-    locations = cells_body(
-      columns = c(OFF_RATING_RANK,DEF_RATING_RANK,NET_RATING_RANK)
-    ),
-    fn = function(x){
-      team <- word(x, -1)
-      paste0(
-        "(", x, ")")
-    }
-  ) %>%
-  tab_spanner( label = md("**Offense**"),
-               columns = c(OFF_RATING,OFF_RATING_RANK)) %>%
-  tab_spanner( label =  md("**Defense**"),
-               columns = c(DEF_RATING,DEF_RATING_RANK)) %>%
-  tab_spanner( label =  md("**Net Rating**"),
-               columns = c(NET_RATING,NET_RATING_RANK)) %>%
-  cols_align(
-    align = "center",
-    columns = everything()
-    ) %>%
-  cols_align(
-    align = "left",
-    columns = c(OFF_RATING_RANK,DEF_RATING_RANK)
-  )  %>% 
-  tab_style(style = cell_text(color = "blue",
-                              size = px(10)),
-            locations = cells_body(
-              columns = c(OFF_RATING_RANK,DEF_RATING_RANK,NET_RATING_RANK))
-            )%>%
-  tab_style(
-    style = cell_text(size = px(10)),
-    locations = cells_body(
-      columns = c(OFF_RATING_RANK,DEF_RATING_RANK,NET_RATING_RANK))
-  ) %>%
-  tab_style(
-    style = cell_text(size = px(1)),
-    locations = cells_column_labels(
-      columns = c(OFF_RATING_RANK,DEF_RATING_RANK,NET_RATING_RANK))
-    )
-  
-
-
 write.csv(Efficiency_table, "Efficiency_table.csv")
+
+
+url_four_factors <- "https://stats.gleague.nba.com/stats/leaguedashteamstats?Conference=&DateFrom=&DateTo=&Division=&GameScope=&GameSegment=&LastNGames=0&LeagueID=20&Location=&MeasureType=Four+Factors&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2020-21&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision="
+
+
+res1 <- GET(url = url_four_factors, add_headers(.headers=headers))
+json_resp1 <- fromJSON(content(res1, "text"))
+four_factors <- data.frame(json_resp1$resultSets$rowSet)
+
+colnames(four_factors) <- json_resp1[["resultSets"]][["headers"]][[1]]    
+four_factors <- four_factors %>% select(TEAM_NAME,EFG_PCT,FTA_RATE,TM_TOV_PCT,OREB_PCT,OPP_EFG_PCT,OPP_FTA_RATE,OPP_TOV_PCT,OPP_OREB_PCT,EFG_PCT_RANK,FTA_RATE_RANK,TM_TOV_PCT_RANK,OREB_PCT_RANK,
+                                          OPP_EFG_PCT_RANK,OPP_FTA_RATE_RANK,OPP_TOV_PCT_RANK,OPP_OREB_PCT_RANK)
+
+                                                                                                    
+write.csv(four_factors, "four_factors.csv")
