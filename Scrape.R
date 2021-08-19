@@ -51,7 +51,7 @@ df <- df %>% select(-c(TEAM_ID,CFPARAMS,GP_RANK))
 
 Team <- df %>% select(TEAM_NAME,GP, W, L,W_PCT,POSS,PACE, PACE_RANK, PACE_PER40 )
 
-write_csv(Team, "Team.csv")
+write_csv(Team, paste0('data/','Team.csv')
 
 
 ## Efficiency
@@ -59,7 +59,7 @@ Efficiency_table <- df %>% select(TEAM_NAME,OFF_RATING,OFF_RATING_RANK,DEF_RATIN
 
 
 
-write.csv(Efficiency_table, "Efficiency_table.csv")
+write.csv(Efficiency_table, paste0('data/','Efficiency_table.csv')
 
 
 url_four_factors <- "https://stats.gleague.nba.com/stats/leaguedashteamstats?Conference=&DateFrom=&DateTo=&Division=&GameScope=&GameSegment=&LastNGames=0&LeagueID=20&Location=&MeasureType=Four+Factors&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2020-21&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision="
@@ -74,4 +74,4 @@ four_factors <- four_factors %>% select(TEAM_NAME,EFG_PCT,FTA_RATE,TM_TOV_PCT,OR
                                           OPP_EFG_PCT_RANK,OPP_FTA_RATE_RANK,OPP_TOV_PCT_RANK,OPP_OREB_PCT_RANK)
 
                                                                                                     
-write.csv(four_factors, "four_factors.csv")
+write.csv(four_factors,paste0('data/','four_factors.csv')
