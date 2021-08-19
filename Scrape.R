@@ -6,7 +6,7 @@ library(jsonlite)
 library(tidyverse)
 library(httr)
 library(janitor)
-library(gt)
+
 
 
 ## scounting##
