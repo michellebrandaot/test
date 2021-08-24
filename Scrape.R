@@ -74,4 +74,5 @@ res1 <- GET(url = url_four_factors, add_headers(.headers=headers))
                     
                     
 write.csv(four_factors,paste0('data/','four_factors.csv'))
+#
                               
