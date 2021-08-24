@@ -25,6 +25,7 @@ jobs:
         R -e 'install.packages("httr")'
         R -e 'install.packages("janitor")'
         R -e 'install.packages("gt")'
+        
     # Run R script
     - name: Scrape
       run: Rscript Scrape.R
