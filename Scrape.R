@@ -44,8 +44,7 @@ colnames(player_shooting_style) <- json_resp7[["resultSets"]][["headers"]][[4]][
 
 
 colnames(player_shooting_style)
-view(player_shooting_style)
-write.csv(player_shooting_style,"player_shooting_style.csv")
+
 
 colnames(player_shooting_style)<- c("PLAYER_ID",
   "PLAYER_NAME",
