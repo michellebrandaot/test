@@ -33,46 +33,72 @@ headers = c(
 )
 
 
-url <- "https://stats.gleague.nba.com/stats/leaguedashteamstats?Conference=&DateFrom=&DateTo=&Division=&GameScope=&GameSegment=&LastNGames=0&LeagueID=20&Location=&MeasureType=Advanced&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2020-21&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision="
 
-res <- GET(url = url, add_headers(.headers=headers))
-json_resp <- fromJSON(content(res, "text"))
-df <- data.frame(json_resp$resultSets$rowSet)
-
-colnames(df) <- json_resp[["resultSets"]][["headers"]][[1]]    
+player_shooting_style <- "https://stats.gleague.nba.com/stats/leaguedashplayershotlocations?College=&Conference=&Country=&DateFrom=&DateTo=&DistanceRange=By+Zone&Division=&DraftPick=&DraftYear=&GameScope=&GameSegment=&Height=&LastNGames=0&LeagueID=20&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&TOTALS_LOSSES_WINS=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2020-21&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&VsConference=&VsDivision=&Weight="
+res7<- GET(url = player_shooting_style, add_headers(.headers=headers))
+json_resp7 <- fromJSON(content(res7, "text"))
+player_shooting_style <- data.frame(json_resp7$resultSets$rowSet)
 
 
-## cleaning dataset 
-df <- df %>% select(-c(TEAM_ID,CFPARAMS,GP_RANK))
+colnames(player_shooting_style) <- json_resp7[["resultSets"]][["headers"]][[4]][[2]] 
 
 
-### Winning 
+colnames(player_shooting_style)
+view(player_shooting_style)
+write.csv(player_shooting_style,"player_shooting_style.csv")
 
-Team <- df %>% select(TEAM_NAME,GP, W, L,W_PCT,POSS,PACE, PACE_RANK, PACE_PER40 )
-
-write_csv(Team, paste0('data/','Team.csv'))
-          
-          
-          ## Efficiency
- Efficiency_table <- df %>% select(TEAM_NAME,OFF_RATING,OFF_RATING_RANK,DEF_RATING, DEF_RATING_RANK,NET_RATING,NET_RATING_RANK)
-          
-          
-          
-write.csv(Efficiency_table, paste0('data/','Efficiency_table.csv'))
-                    
-                    
-url_four_factors <- "https://stats.gleague.nba.com/stats/leaguedashteamstats?Conference=&DateFrom=&DateTo=&Division=&GameScope=&GameSegment=&LastNGames=0&LeagueID=20&Location=&MeasureType=Four+Factors&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2020-21&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision="
-                    
-                    
-res1 <- GET(url = url_four_factors, add_headers(.headers=headers))
-                    json_resp1 <- fromJSON(content(res1, "text"))
-                    four_factors <- data.frame(json_resp1$resultSets$rowSet)
-                    
-                    colnames(four_factors) <- json_resp1[["resultSets"]][["headers"]][[1]]    
-                    four_factors <- four_factors %>% select(TEAM_NAME,EFG_PCT,FTA_RATE,TM_TOV_PCT,OREB_PCT,OPP_EFG_PCT,OPP_FTA_RATE,OPP_TOV_PCT,OPP_OREB_PCT,EFG_PCT_RANK,FTA_RATE_RANK,TM_TOV_PCT_RANK,OREB_PCT_RANK,
-                                                            OPP_EFG_PCT_RANK,OPP_FTA_RATE_RANK,OPP_TOV_PCT_RANK,OPP_OREB_PCT_RANK)
-                    
-                    
-write.csv(four_factors,paste0('data/','four_factors.csv'))
-#
-                              
+colnames(player_shooting_style)<- c("PLAYER_ID",
+  "PLAYER_NAME",
+  "TEAM_ID",
+  "TEAM_ABBREVIATION",
+  "AGE",
+  "NICKNAME",
+  "Restricted_Area_FGM",
+  "Restricted_Area_FGA",
+  "Restricted_Area_FG_PCT",
+  "In_The_Paint_Non_RA_FGM",
+  "In_The_Paint_Non_RA_FGA",
+  "In_The_Paint_Non_RA_FG_PCT",
+  "Mid_Range_FGM",
+  "Mid_Range_FGA",
+  "Mid_Range_FG_PCT",
+  "Left_Corner_3_FGM",
+  "Left_Corner_3_FGA",
+  "Left_Corner_3_FG_PCT",
+  "Right_Corner_3_FGM",
+  "Right_Corner_3_FGA",
+  "Right_Corner_3_FG_PCT",
+  "Above_the_Break_3_FGM",
+  "Above_the_Break_3_FGA",
+  "Above_the_Break_3_FG_PCT",
+  "Backcourt_3_FGM",
+  "Backcourt_3_FGA",
+  "Backcourt_3_FG_PCT")
+  
+  
+player_shooting_style <- player_shooting_style %>% select("PLAYER_NAME",
+                                                          "TEAM_ABBREVIATION",
+                                                          "Restricted_Area_FGM",
+                                                          "Restricted_Area_FGA",
+                                                          "Restricted_Area_FG_PCT",
+                                                          "In_The_Paint_Non_RA_FGM",
+                                                          "In_The_Paint_Non_RA_FGA",
+                                                          "In_The_Paint_Non_RA_FG_PCT",
+                                                          "Mid_Range_FGM",
+                                                          "Mid_Range_FGA",
+                                                          "Mid_Range_FG_PCT",
+                                                          "Left_Corner_3_FGM",
+                                                          "Left_Corner_3_FGA",
+                                                          "Left_Corner_3_FG_PCT",
+                                                          "Right_Corner_3_FGM",
+                                                          "Right_Corner_3_FGA",
+                                                          "Right_Corner_3_FG_PCT",
+                                                          "Above_the_Break_3_FGM",
+                                                          "Above_the_Break_3_FGA",
+                                                          "Above_the_Break_3_FG_PCT",
+                                                          "Backcourt_3_FGM",
+                                                          "Backcourt_3_FGA",
+                                                          "Backcourt_3_FG_PCT")
+    
+       
+write.csv(player_shooting_style,paste0('data/','player_shooting_style.csv'))
