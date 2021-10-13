@@ -1,3 +1,12 @@
+library(tidyverse)
+library(rvest)
+library(httr)
+library(jsonlite)
+library(tidyverse)
+library(httr)
+library(janitor)
+
+
 headers <- c(
   `Host` = 'stats.nba.com',
   `User-Agent` = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
