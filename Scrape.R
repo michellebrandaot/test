@@ -92,4 +92,4 @@ player_shooting_style <- player_shooting_style %>% select("PLAYER_NAME",
                                                           "Backcourt_3_FG_PCT")
     
        
-write.csv(player_shooting_style,paste0('data/','player_shooting_style.csv'))
+write.csv(player_shooting_style,paste0('data/','player_shooting_style3.csv'))
