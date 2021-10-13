@@ -17,7 +17,7 @@ library(janitor)
 ## 5 Table_shooting -  shooting style 
 
 
-#Set header connections 
+#Set header connections for g-league 
 headers = c(
   `Connection` = 'keep-alive',
   `Accept` = 'application/json, text/plain, */*',
