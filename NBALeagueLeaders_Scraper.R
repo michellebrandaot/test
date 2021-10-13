@@ -22,9 +22,11 @@ headers <- c(
   `Cache-Control` = 'no-cache'
 )
 
-  
+ 
 url <-"https://www.nba.com/stats/leaders/?Season=2021-22&SeasonType=Pre%20Season"
 res <- GET(url = url, add_headers(.headers=headers))
 json_resp <- fromJSON(content(res, "text"))
 NBALeagueLeaders <- data.frame(json_resp$resultSets$rowSet)
+
+#write a file
 write.csv(NBALeagueLeaders,paste0('data/','NBALeagueLeaders.csv'))
