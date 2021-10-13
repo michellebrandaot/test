@@ -2,12 +2,10 @@
 name: Scrape
 
 # Controls when the action will run.
-on:
-  push:
-    branches: main
+on:[push]
 
 jobs:
-  autoscrape:
+  scrape:
     # The type of runner that the job will run on
     runs-on: macos-latest
 
