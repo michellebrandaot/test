@@ -29,11 +29,7 @@ jobs:
     # Run R script
     - name: Scrape
       run: Rscript Scrape1.R
-      
-    # Run the second R script
-    - name: Second_Scrape
-      run: NBALeagueLeaders_Scraper.R
-
+    
     # Add new files in data folder, commit along with other modified files, push
     - name: Commit files
       run: |
