@@ -31,7 +31,7 @@ jobs:
       run: Rscript Scrape1.R
       
     # Run the second R script
-     - name: Second Scrape
+    - name: Second_Scrape
       run: NBALeagueLeaders_Scraper.R
 
     # Add new files in data folder, commit along with other modified files, push
