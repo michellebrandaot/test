@@ -35,12 +35,12 @@ headers = c(
 
 
 url <- "https://stats.gleague.nba.com/stats/leaguedashplayershotlocations?College=&Conference=&Country=&DateFrom=&DateTo=&DistanceRange=By+Zone&Division=&DraftPick=&DraftYear=&GameScope=&GameSegment=&Height=&LastNGames=0&LeagueID=20&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2020-21&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&VsConference=&VsDivision=&Weight="
-res7<- GET(url = url, add_headers(.headers=headers))
-json_resp7 <- fromJSON(content(res7, "text"))
-player_shooting_style <- data.frame(json_resp7$resultSets$rowSet)
+res<- GET(url = url, add_headers(.headers=headers))
+json_resp <- fromJSON(content(res, "text"))
+player_shooting_style <- data.frame(json_resp$resultSets$rowSet)
 
 
-colnames(player_shooting_style) <- json_resp7[["resultSets"]][["headers"]][[4]][[2]] 
+colnames(player_shooting_style) <- json_resp[["resultSets"]][["headers"]][[4]][[2]] 
 
 
 colnames(player_shooting_style)
