@@ -30,7 +30,7 @@ jobs:
     - name: Scrape
       run: Rscript Scrape.R
     
-    # Add new files in data folder, commit along with other modified files, push
+    # Add new files in data folder, commit along with other modified files, push.
     - name: Commit files
       run: |
         git config --local user.name github-actions
